@@ -1,0 +1,42 @@
+This directory is an example of modifiers for the ISO image.
+'Modifiers' are a series of executable items (e.g. scripts)
+that will be run against the ISO image.
+
+Modifiers are expected to set an exit code of 0 if they were
+successful, and non-zero if they failed.  Any failure will
+abort the modification of the ISO.
+
+In order to be run against the image, the modifier must have
+all of the following characteristics:
+
+* Starts with 'A', 'B', or 'C' (more about this later)
+* Is followed by a two digit decimal number
+* Is marked as executable by the system
+
+For example, the following items are all modifiers:
+A03ClearTempFiles.sh
+A52.py
+C99FinishChrootChanges
+
+And the following are not:
+README
+a03ClearTempFiles.sh
+A5ANumbersAreDecimalNotHex.py
+D01FinishChrootChanges
+
+The leading character is a marker, denoting a class of modifier:
+
+'B' are scripts to be run 'B'efore the chroot environment is started.
+'C' are scripts to be run inside the 'C'hroot environment.
+'A' are scripts to be run 'A'fter the chroot environment is exited.
+
+For the most part, modifiers should be run with the 'C' prefix.
+
+The two digit numeric value is just a sequence order, with 'C01' 
+being run before 'C02' which is run before 'C57'.  Gaps in the 
+sequence are allowed.
+
+Any text following the first three characters ("C22") is merely for
+file documentation.  "C22AddMyUser.sh" is much more self-descriptive
+than "C22".
+
